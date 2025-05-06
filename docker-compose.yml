@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgis/postgis:13-3.1-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: social_user
+      POSTGRES_PASSWORD: SocialLocal123
+      POSTGRES_DB: social_db
+    expose:
+      - "5592" # Publishes 5592 to other containers but NOT to host machine
+    ports:
+      - 5592:5592
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+      - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data/users.sql:/docker-entrypoint-initdb.d/users.sql
+      - ./data/messages.sql:/docker-entrypoint-initdb.d/messages.sql
+      - ./data/messages_hashes.sql:/docker-entrypoint-initdb.d/messages_hashes.sql
+      - ./data/user_follows.sql:/docker-entrypoint-initdb.d/user_follows.sql
+    networks:
+      - social_network
+    command: -p 5592
+  javaapp:
+    image: tomiito/digitalhouse_social_network_api
+    ports:
+      - 8080:8080
+    networks:
+      - social_network
+    depends_on:
+      - db
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning --requirepass SocialNetworkPass
+    volumes:
+      - redis:/data
+
+volumes:
+  postgres_db:
+  redis:
+
+networks:
+  social_network:
+    driver: bridge

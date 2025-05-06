@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  main {
+    @apply w-full;
+    @apply flex;
+    @apply flex-col;
+    @apply items-center;
+  }
+  section {
+    @apply px-4;
+    @apply w-full;
+  }
+  h1 {
+    @apply font-bold;
+    @apply text-xl;
+  }
+
+  h2 {
+    @apply font-semibold;
+    @apply text-lg;
+  }
+  h3 {
+    @apply font-semibold;
+    @apply text-base;
+  }
+}
+
+.button-primary {
+  @apply rounded-md;
+  @apply bg-pink-400;
+  @apply text-white;
+  @apply px-6;
+  @apply py-2;
+}
+
+.button-primary:hover {
+  @apply bg-pink-300;
+}
+
+.button-secondary {
+  @apply rounded-md;
+  @apply bg-gray-50;
+  @apply text-pink-400;
+  @apply px-6;
+  @apply py-2;
+}
+.button-secondary:hover {
+  @apply bg-gray-100;
+}
+
+.link-primary {
+  @apply text-pink-400;
+  @apply font-semibold;
+  @apply cursor-pointer;
+}
+
+.link-primary:hover {
+  @apply text-pink-500;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
